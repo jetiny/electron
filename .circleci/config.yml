@@ -68,6 +68,10 @@ executors:
     resource_class: electronjs/linux-arm64
     machine: true
 
+  linux-arm:
+    resource_class: electronjs/linux-arm
+    machine: true
+
 # The config expects the following environment variables to be set:
 #  - "SLACK_WEBHOOK" Slack hook URL to send notifications.
 #
@@ -1884,7 +1888,7 @@ jobs:
       GCLIENT_EXTRA_ARGS: '--custom-var=checkout_arm=True --custom-var=checkout_arm64=True'
     steps:
       - electron-build:
-          persist: false
+          persist: true
           checkout: true
           use-out-cache: false
 
@@ -2298,6 +2302,15 @@ jobs:
       <<: *env-headless-testing
       <<: *env-send-slack-notifications
     <<: *steps-verify-ffmpeg
+  
+  linux-arm-testing-tests:
+    executor: linux-arm
+    environment:
+      <<: *env-arm
+      <<: *env-global
+      <<: *env-headless-testing
+      <<: *env-stack-dumping
+    <<: *steps-tests  
 
   linux-arm64-testing-tests:
     executor: linux-arm64
@@ -2433,6 +2446,9 @@ workflows:
             - linux-ia32-testing
 
       - linux-arm-testing
+      - linux-arm-testing-tests:
+          requires:
+            - linux-arm-testing
 
       - linux-arm64-testing
       - linux-arm64-testing-tests:
