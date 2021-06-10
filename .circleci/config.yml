@@ -69,7 +69,7 @@ executors:
     machine: true
 
   linux-arm:
-    resource_class: electronjs/linux-arm
+    resource_class: electronjs/linux-arm64
     machine: true
 
 # The config expects the following environment variables to be set:
