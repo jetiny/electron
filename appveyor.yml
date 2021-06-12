@@ -53,6 +53,8 @@ build_script:
   - git config --global core.longpaths true
   - cd ..
   - mkdir src
+  - git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git C:\Users\depot_tools\
+  - set PATH=%PATH%;C:\Users\depot_tools\
   - update_depot_tools.bat
   - ps: Move-Item $env:APPVEYOR_BUILD_FOLDER -Destination src\electron
   - ps: $env:CHROMIUM_BUILDTOOLS_PATH="$pwd\src\buildtools"
